@@ -26,14 +26,12 @@ rows = 6
 clock = pygame.time.Clock()
 fps = 60
 
-live_ball = False
+ball = False
 game_over = 0
-
 
 def draw_text(text, font, text_col, x, y):
     img = font.render(text, True, text_col)
     screen.blit(img, (x, y))
-
 
 class wall():
 
@@ -103,7 +101,6 @@ class board():
         self.speed = 10
         self.rect = Rect(self.x, self.y, self.width, self.height)
         self.direction = 0
-
 
 class game_ball():
     def __init__(self, x, y):
@@ -180,6 +177,15 @@ class game_ball():
         self.speed_max = 5
         self.game_over = 0
 
+    def reset(self, x, y):
+        self.ball_rad = 10
+        self.x = x - self.ball_rad
+        self.y = y
+        self.rect = Rect(self.x, self.y, self.ball_rad * 2, self.ball_rad * 2)
+        self.speed_x = 4
+        self.speed_y = -4
+        self.speed_max = 5
+        self.game_over = 0
 
 wall = wall()
 wall.create_wall()
@@ -201,6 +207,7 @@ while run:
     player_board.draw()
 
     ball.draw()
+    ball.moving()
 
     if live_ball:
         player_board.moving()
